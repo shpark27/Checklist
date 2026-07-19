@@ -1,0 +1,510 @@
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>공사 준비물 체크리스트</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f8f7f4;--card:#ffffff;--border:#e5e3dc;--border2:#ccc9be;
+    --text:#1a1916;--text2:#6b6860;--text3:#9e9b94;
+    --green:#1D9E75;--green-bg:#E1F5EE;--green-text:#085041;
+    --amber-bg:#FAEEDA;--amber-text:#633806;
+    --red:#c0392b;--radius:12px;--radius-sm:8px;
+  }
+  @media(prefers-color-scheme:dark){
+    :root{
+      --bg:#1a1916;--card:#252320;--border:#38352e;--border2:#4a4640;
+      --text:#f0ede6;--text2:#9e9b94;--text3:#6b6860;
+      --green-bg:#04342C;--green-text:#9FE1CB;
+      --amber-bg:#412402;--amber-text:#FAC775;
+    }
+  }
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,'Noto Sans KR',sans-serif;min-height:100vh;padding-bottom:40px}
+  .topbar{background:var(--card);border-bottom:1px solid var(--border);padding:14px 16px;position:sticky;top:0;z-index:100}
+  .topbar-inner{max-width:600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .app-title{font-size:17px;font-weight:600;letter-spacing:-0.3px}
+  .app-sub{font-size:12px;color:var(--text3);margin-top:1px}
+  .header-right{display:flex;align-items:center;gap:8px}
+  .stats-row{display:flex;gap:6px}
+  .stat{background:var(--bg);border-radius:var(--radius-sm);padding:5px 10px;text-align:center;min-width:48px}
+  .stat-n{font-size:16px;font-weight:600}
+  .stat-l{font-size:10px;color:var(--text3);margin-top:1px}
+  .edit-btn{padding:7px 14px;font-size:13px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;color:var(--text);cursor:pointer;font-weight:500;white-space:nowrap}
+  .edit-btn.on{background:var(--amber-bg);border-color:#EF9F27;color:var(--amber-text)}
+  .main{max-width:600px;margin:0 auto;padding:16px}
+  .tabs-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;margin-bottom:14px}
+  .tabs-scroll::-webkit-scrollbar{display:none}
+  .tabs{display:flex;gap:6px;min-width:max-content}
+  .tab{padding:7px 14px;border-radius:99px;border:1px solid var(--border);font-size:13px;cursor:pointer;background:transparent;color:var(--text2);white-space:nowrap;font-weight:500}
+  .tab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+  .tab-del{font-size:11px;color:var(--text3);cursor:pointer;padding:2px 4px;border:none;background:transparent;margin-left:-4px}
+  .add-tab-btn{padding:7px 12px;border-radius:99px;border:1px dashed var(--border2);font-size:13px;cursor:pointer;background:transparent;color:var(--text3)}
+  .tab-name-inp{font-size:13px;font-weight:500;padding:5px 10px;border:1px solid #EF9F27;border-radius:99px;background:var(--amber-bg);color:var(--amber-text);outline:none;width:100px}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
+  .sec-head{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer}
+  .sec-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .sec-name{flex:1;font-size:14px;font-weight:600}
+  .sec-name-inp{flex:1;font-size:14px;font-weight:600;border:none;background:transparent;color:var(--text);outline:none;border-bottom:1px solid var(--border2)}
+  .sec-prog{font-size:12px;color:var(--text3)}
+  .pbar-w{width:44px;height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+  .pbar{height:100%;background:var(--green);border-radius:99px;transition:width .3s}
+  .chevron{font-size:10px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+  .chevron.open{transform:rotate(180deg)}
+  .sec-del-btn{font-size:13px;color:var(--text3);border:none;background:transparent;cursor:pointer;padding:2px 5px;flex-shrink:0}
+  .items{padding:0 14px}
+  .item{display:flex;align-items:flex-start;gap:8px;padding:10px 0;border-top:1px solid var(--border)}
+  .drag-h{color:var(--text3);cursor:grab;font-size:12px;padding-top:2px;display:none;user-select:none;letter-spacing:-2px}
+  .edit-mode .drag-h{display:block}
+  .cb{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+  .cb.on{background:var(--green);border-color:var(--green);color:#fff;font-size:11px}
+  .item-body{flex:1;min-width:0}
+  .item-text{font-size:14px;line-height:1.4}
+  .item-text.done{text-decoration:line-through;color:var(--text3)}
+  .item-note{font-size:12px;color:var(--text3);margin-top:2px}
+  .item-txt-inp{width:100%;font-size:14px;border:none;background:transparent;color:var(--text);outline:none;border-bottom:1px solid var(--border2);padding-bottom:1px}
+  .item-note-inp{width:100%;font-size:12px;border:none;background:transparent;color:var(--text2);outline:none;margin-top:3px;border-bottom:1px solid transparent}
+  .item-note-inp:focus{border-bottom-color:var(--border2)}
+  .badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:99px;margin-left:5px;vertical-align:middle}
+  .b-req{background:#FAECE7;color:#993C1D}
+  .b-opt{background:var(--green-bg);color:var(--green-text)}
+  .item-del{font-size:12px;color:var(--text3);border:none;background:transparent;cursor:pointer;padding:2px 4px;flex-shrink:0;display:none;margin-top:2px}
+  .item-del:hover{color:var(--red)}
+  .edit-mode .item-del{display:block}
+  .req-toggle{font-size:10px;padding:2px 7px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;margin-top:4px}
+  .add-item-btn{width:100%;padding:10px 0;font-size:13px;color:var(--text3);cursor:pointer;background:transparent;border:none;border-top:1px dashed var(--border);text-align:left;display:none}
+  .edit-mode .add-item-btn{display:block}
+  .add-sec-btn{width:100%;padding:12px;font-size:13px;color:var(--text3);cursor:pointer;background:var(--card);border:1px dashed var(--border2);border-radius:var(--radius);text-align:center;display:none;margin-bottom:10px}
+  .edit-mode .add-sec-btn{display:block}
+  .inline-row{display:flex;gap:6px;padding:8px 0;border-top:1px solid var(--border)}
+  .inline-row input{flex:1;font-size:13px;padding:6px 10px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:var(--card);color:var(--text)}
+  .inline-row button{padding:6px 12px;font-size:13px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;cursor:pointer;color:var(--text)}
+  .save-notice{position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;padding:8px 16px;border-radius:99px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200}
+  .save-notice.show{opacity:1}
+  .export-btn{padding:7px 14px;font-size:13px;border-radius:var(--radius-sm);border:1px solid var(--green);background:var(--green-bg);color:var(--green-text);cursor:pointer;font-weight:500;white-space:nowrap}
+  .drag-over{border-top:2px solid var(--green)}
+</style>
+<script>window.__SAVED_STATE__={"data":{"철거":{"sections":[{"name":"안전 장비","items":[{"t":"방진 마스크 (N95 이상)","n":"분진 많음, 여분 준비","r":true},{"t":"안전 고글","n":"파편 비산 대비","r":true},{"t":"안전모","n":"낙하물 대비","r":true},{"t":"방진복 또는 작업복","n":"","r":false},{"t":"안전화","n":"","r":true},{"t":"귀마개","n":"소음 보호","r":false}]},{"name":"철거 공구","items":[{"t":"전동 해머 드릴 / 브레이커","n":"","r":true},{"t":"빠루 (쇠지레대)","n":"","r":true},{"t":"슬레지 해머","n":"","r":true},{"t":"전동 그라인더","n":"절단용","r":false}]},{"name":"현장 준비","items":[{"t":"폐기물 마대 (톤백)","n":"","r":true},{"t":"타포린 / 방진 시트","n":"인접 공간 보호","r":true},{"t":"테이프 (마스킹, 청테이프)","n":"","r":true},{"t":"전기 차단 확인","n":"작업 전 필수","r":true},{"t":"수도 잠금 확인","n":"","r":true},{"t":"Vinyl sheet","n":"","r":false},{"t":"Masking tape","n":"","r":false}]}]},"바닥공사":{"sections":[{"name":"재료","items":[{"t":"마루 / 타일 / 강마루 자재","n":"면적 + 5% 여유 주문","r":true},{"t":"셀프 레벨링 몰탈","n":"바닥 평탄화","r":false},{"t":"방수 도막재","n":"욕실·주방 필수","r":false},{"t":"본드 / 접착제","n":"재질에 맞는 제품","r":true},{"t":"줄눈재","n":"타일 시공 시","r":false}]},{"name":"공구","items":[{"t":"타일 커터 / 앵글 그라인더","n":"","r":true},{"t":"수평계 (레이저 포함)","n":"","r":true},{"t":"고무 망치","n":"","r":true},{"t":"스페이서","n":"타일 간격 유지","r":false},{"t":"Mitre saw","n":"","r":false},{"t":"Table saw","n":"","r":false},{"t":"Jig saw","n":"","r":false},{"t":"Table","n":"","r":false}]},{"name":"사전 확인","items":[{"t":"바닥 수분 측정","n":"수분 8% 이하 권장","r":true},{"t":"불량 부위 보수","n":"균열·들뜸 확인","r":true},{"t":"바닥 레벨 체크","n":"1m당 2mm 이내","r":true}]}]},"도장":{"sections":[{"name":"재료","items":[{"t":"도료 (수성 / 유성)","n":"면적·용도에 맞게","r":true},{"t":"하도 프라이머","n":"흡수율 높은 면 필수","r":true},{"t":"퍼티 (벽면 메우기용)","n":"","r":true},{"t":"샌드페이퍼 (80·120·220방)","n":"","r":true}]},{"name":"도구","items":[{"t":"롤러 (중모·단모)","n":"","r":true},{"t":"붓 (각종 사이즈)","n":"","r":true},{"t":"스프레이 건","n":"넓은 면적·무늬 도장","r":false},{"t":"마스킹 테이프","n":"경계 보호","r":true},{"t":"양면 비닐 시트","n":"바닥·가구 보호","r":true}]},{"name":"준비 사항","items":[{"t":"환기 계획 수립","n":"VOC 배출 필수","r":true},{"t":"온도·습도 확인","n":"5°C 이상, 습도 85% 이하","r":true},{"t":"기존 도장면 오염 제거","n":"유분·먼지","r":true}]}]},"전기·설비":{"sections":[{"name":"재료","items":[{"t":"전선 (HFIX 1.5·2.5·4.0mm²)","n":"","r":true},{"t":"CD 파이프 / 후렉시블","n":"전선 보호관","r":true},{"t":"콘센트·스위치 박스","n":"","r":true},{"t":"실리콘 (방수용)","n":"","r":true}]},{"name":"공구","items":[{"t":"검전기 (테스터기)","n":"작업 전 반드시","r":true},{"t":"전선 스트리퍼","n":"","r":true},{"t":"절연 장갑","n":"","r":true},{"t":"멀티미터","n":"","r":false}]},{"name":"안전·행정","items":[{"t":"한전 단전 신청 또는 차단기 OFF","n":"","r":true},{"t":"전기 도면 확인","n":"기존 배선 파악","r":true},{"t":"전기공사 면허 보유 확인","n":"법적 요건","r":true}]}]},"도배·마감":{"sections":[{"name":"재료","items":[{"t":"벽지 (합지 / 실크)","n":"면적 + 10% 여유","r":true},{"t":"도배 풀","n":"","r":true},{"t":"초배지","n":"초배 시공 시","r":false},{"t":"실리콘 (투명·백색)","n":"틈새 마감","r":true}]},{"name":"공구","items":[{"t":"도배 솔 / 롤러","n":"","r":true},{"t":"커터칼 및 여분 날","n":"","r":true},{"t":"스크레이퍼","n":"기존 벽지 제거","r":true},{"t":"줄자","n":"","r":true}]},{"name":"준비 사항","items":[{"t":"기존 벽지 상태 확인","n":"들뜸·곰팡이 여부","r":true},{"t":"벽면 균열 퍼티 보수","n":"","r":true},{"t":"실내 온도 유지","n":"15°C 이상 권장","r":true}]}]},"필수장비":{"sections":[{"name":"청소","items":[{"t":"Vacuum","n":"","r":false},{"t":"Dust pan","n":"","r":false},{"t":"Broom","n":"","r":false},{"t":"Garbage bag","n":"","r":false},{"t":"Blower","n":"","r":false}]}]}},"탭순서":["철거","바닥공사","도장","전기·설비","도배·마감","필수장비"],"checked":{"철거||0||0":false},"collapsed":{"필수장비__0":false}};</script><script>window.__SAVED_STATE__={"data":{"철거":{"sections":[{"name":"안전 장비","items":[{"t":"방진 마스크 (N95 이상)","n":"분진 많음, 여분 준비","r":true},{"t":"안전 고글","n":"파편 비산 대비","r":true},{"t":"안전모","n":"낙하물 대비","r":true},{"t":"방진복 또는 작업복","n":"","r":false},{"t":"안전화","n":"","r":true},{"t":"귀마개","n":"소음 보호","r":false}]},{"name":"철거 공구","items":[{"t":"전동 해머 드릴 / 브레이커","n":"","r":true},{"t":"빠루 (쇠지레대)","n":"","r":true},{"t":"슬레지 해머","n":"","r":true},{"t":"전동 그라인더","n":"절단용","r":false}]},{"name":"현장 준비","items":[{"t":"폐기물 마대 (톤백)","n":"","r":true},{"t":"타포린 / 방진 시트","n":"인접 공간 보호","r":true},{"t":"테이프 (마스킹, 청테이프)","n":"","r":true},{"t":"전기 차단 확인","n":"작업 전 필수","r":true},{"t":"수도 잠금 확인","n":"","r":true},{"t":"Vinyl sheet","n":"","r":false},{"t":"Masking tape","n":"","r":false}]}]},"바닥공사":{"sections":[{"name":"재료","items":[{"t":"마루 / 타일 / 강마루 자재","n":"면적 + 5% 여유 주문","r":true},{"t":"셀프 레벨링 몰탈","n":"바닥 평탄화","r":false},{"t":"방수 도막재","n":"욕실·주방 필수","r":false},{"t":"본드 / 접착제","n":"재질에 맞는 제품","r":true},{"t":"줄눈재","n":"타일 시공 시","r":false}]},{"name":"공구","items":[{"t":"타일 커터 / 앵글 그라인더","n":"","r":true},{"t":"수평계 (레이저 포함)","n":"","r":true},{"t":"고무 망치","n":"","r":true},{"t":"스페이서","n":"타일 간격 유지","r":false},{"t":"Mitre saw","n":"","r":false},{"t":"Table saw","n":"","r":false},{"t":"Jig saw","n":"","r":false},{"t":"Table","n":"","r":false}]},{"name":"사전 확인","items":[{"t":"바닥 수분 측정","n":"수분 8% 이하 권장","r":true},{"t":"불량 부위 보수","n":"균열·들뜸 확인","r":true},{"t":"바닥 레벨 체크","n":"1m당 2mm 이내","r":true}]}]},"도장":{"sections":[{"name":"재료","items":[{"t":"도료 (수성 / 유성)","n":"면적·용도에 맞게","r":true},{"t":"하도 프라이머","n":"흡수율 높은 면 필수","r":true},{"t":"퍼티 (벽면 메우기용)","n":"","r":true},{"t":"샌드페이퍼 (80·120·220방)","n":"","r":true}]},{"name":"도구","items":[{"t":"롤러 (중모·단모)","n":"","r":true},{"t":"붓 (각종 사이즈)","n":"","r":true},{"t":"스프레이 건","n":"넓은 면적·무늬 도장","r":false},{"t":"마스킹 테이프","n":"경계 보호","r":true},{"t":"양면 비닐 시트","n":"바닥·가구 보호","r":true}]},{"name":"준비 사항","items":[{"t":"환기 계획 수립","n":"VOC 배출 필수","r":true},{"t":"온도·습도 확인","n":"5°C 이상, 습도 85% 이하","r":true},{"t":"기존 도장면 오염 제거","n":"유분·먼지","r":true}]}]},"전기·설비":{"sections":[{"name":"재료","items":[{"t":"전선 (HFIX 1.5·2.5·4.0mm²)","n":"","r":true},{"t":"CD 파이프 / 후렉시블","n":"전선 보호관","r":true},{"t":"콘센트·스위치 박스","n":"","r":true},{"t":"실리콘 (방수용)","n":"","r":true}]},{"name":"공구","items":[{"t":"검전기 (테스터기)","n":"작업 전 반드시","r":true},{"t":"전선 스트리퍼","n":"","r":true},{"t":"절연 장갑","n":"","r":true},{"t":"멀티미터","n":"","r":false}]},{"name":"안전·행정","items":[{"t":"한전 단전 신청 또는 차단기 OFF","n":"","r":true},{"t":"전기 도면 확인","n":"기존 배선 파악","r":true},{"t":"전기공사 면허 보유 확인","n":"법적 요건","r":true}]}]},"도배·마감":{"sections":[{"name":"재료","items":[{"t":"벽지 (합지 / 실크)","n":"면적 + 10% 여유","r":true},{"t":"도배 풀","n":"","r":true},{"t":"초배지","n":"초배 시공 시","r":false},{"t":"실리콘 (투명·백색)","n":"틈새 마감","r":true}]},{"name":"공구","items":[{"t":"도배 솔 / 롤러","n":"","r":true},{"t":"커터칼 및 여분 날","n":"","r":true},{"t":"스크레이퍼","n":"기존 벽지 제거","r":true},{"t":"줄자","n":"","r":true}]},{"name":"준비 사항","items":[{"t":"기존 벽지 상태 확인","n":"들뜸·곰팡이 여부","r":true},{"t":"벽면 균열 퍼티 보수","n":"","r":true},{"t":"실내 온도 유지","n":"15°C 이상 권장","r":true}]}]},"필수장비":{"sections":[{"name":"청소","items":[{"t":"Vacuum","n":"","r":false},{"t":"Dust pan","n":"","r":false},{"t":"Broom","n":"","r":false},{"t":"Garbage bag","n":"","r":false},{"t":"Blower","n":"","r":false}]}]},"Deck":{"sections":[{"name":"Demo","items":[{"t":"빠루","n":"","r":false}]}]}},"탭순서":["철거","바닥공사","도장","전기·설비","도배·마감","필수장비","Deck"],"checked":{"철거||0||0":false},"collapsed":{"필수장비__0":false}};</script><script>window.__SAVED_STATE__={"data":{"철거":{"sections":[{"name":"안전 장비","items":[{"t":"방진 마스크 (N95 이상)","n":"분진 많음, 여분 준비","r":true},{"t":"안전 고글","n":"파편 비산 대비","r":true},{"t":"안전모","n":"낙하물 대비","r":true},{"t":"방진복 또는 작업복","n":"","r":false},{"t":"안전화","n":"","r":true},{"t":"귀마개","n":"소음 보호","r":false}]},{"name":"철거 공구","items":[{"t":"전동 해머 드릴 / 브레이커","n":"","r":true},{"t":"빠루 (쇠지레대)","n":"","r":true},{"t":"슬레지 해머","n":"","r":true},{"t":"전동 그라인더","n":"절단용","r":false}]},{"name":"현장 준비","items":[{"t":"폐기물 마대 (톤백)","n":"","r":true},{"t":"타포린 / 방진 시트","n":"인접 공간 보호","r":true},{"t":"테이프 (마스킹, 청테이프)","n":"","r":true},{"t":"전기 차단 확인","n":"작업 전 필수","r":true},{"t":"수도 잠금 확인","n":"","r":true},{"t":"Vinyl sheet","n":"","r":false},{"t":"Masking tape","n":"","r":false}]}]},"바닥공사":{"sections":[{"name":"재료","items":[{"t":"마루 / 타일 / 강마루 자재","n":"면적 + 5% 여유 주문","r":true},{"t":"셀프 레벨링 몰탈","n":"바닥 평탄화","r":false},{"t":"방수 도막재","n":"욕실·주방 필수","r":false},{"t":"본드 / 접착제","n":"재질에 맞는 제품","r":true},{"t":"줄눈재","n":"타일 시공 시","r":false}]},{"name":"공구","items":[{"t":"타일 커터 / 앵글 그라인더","n":"","r":true},{"t":"수평계 (레이저 포함)","n":"","r":true},{"t":"고무 망치","n":"","r":true},{"t":"스페이서","n":"타일 간격 유지","r":false},{"t":"Mitre saw","n":"","r":false},{"t":"Table saw","n":"","r":false},{"t":"Jig saw","n":"","r":false},{"t":"Table","n":"","r":false}]},{"name":"사전 확인","items":[{"t":"바닥 수분 측정","n":"수분 8% 이하 권장","r":true},{"t":"불량 부위 보수","n":"균열·들뜸 확인","r":true},{"t":"바닥 레벨 체크","n":"1m당 2mm 이내","r":true}]}]},"도장":{"sections":[{"name":"재료","items":[{"t":"도료 (수성 / 유성)","n":"면적·용도에 맞게","r":true},{"t":"하도 프라이머","n":"흡수율 높은 면 필수","r":true},{"t":"퍼티 (벽면 메우기용)","n":"","r":true},{"t":"샌드페이퍼 (80·120·220방)","n":"","r":true}]},{"name":"도구","items":[{"t":"롤러 (중모·단모)","n":"","r":true},{"t":"붓 (각종 사이즈)","n":"","r":true},{"t":"스프레이 건","n":"넓은 면적·무늬 도장","r":false},{"t":"마스킹 테이프","n":"경계 보호","r":true},{"t":"양면 비닐 시트","n":"바닥·가구 보호","r":true}]},{"name":"준비 사항","items":[{"t":"환기 계획 수립","n":"VOC 배출 필수","r":true},{"t":"온도·습도 확인","n":"5°C 이상, 습도 85% 이하","r":true},{"t":"기존 도장면 오염 제거","n":"유분·먼지","r":true}]}]},"전기·설비":{"sections":[{"name":"재료","items":[{"t":"전선 (HFIX 1.5·2.5·4.0mm²)","n":"","r":true},{"t":"CD 파이프 / 후렉시블","n":"전선 보호관","r":true},{"t":"콘센트·스위치 박스","n":"","r":true},{"t":"실리콘 (방수용)","n":"","r":true}]},{"name":"공구","items":[{"t":"검전기 (테스터기)","n":"작업 전 반드시","r":true},{"t":"전선 스트리퍼","n":"","r":true},{"t":"절연 장갑","n":"","r":true},{"t":"멀티미터","n":"","r":false}]},{"name":"안전·행정","items":[{"t":"한전 단전 신청 또는 차단기 OFF","n":"","r":true},{"t":"전기 도면 확인","n":"기존 배선 파악","r":true},{"t":"전기공사 면허 보유 확인","n":"법적 요건","r":true}]}]},"도배·마감":{"sections":[{"name":"재료","items":[{"t":"벽지 (합지 / 실크)","n":"면적 + 10% 여유","r":true},{"t":"도배 풀","n":"","r":true},{"t":"초배지","n":"초배 시공 시","r":false},{"t":"실리콘 (투명·백색)","n":"틈새 마감","r":true}]},{"name":"공구","items":[{"t":"도배 솔 / 롤러","n":"","r":true},{"t":"커터칼 및 여분 날","n":"","r":true},{"t":"스크레이퍼","n":"기존 벽지 제거","r":true},{"t":"줄자","n":"","r":true}]},{"name":"준비 사항","items":[{"t":"기존 벽지 상태 확인","n":"들뜸·곰팡이 여부","r":true},{"t":"벽면 균열 퍼티 보수","n":"","r":true},{"t":"실내 온도 유지","n":"15°C 이상 권장","r":true}]}]},"필수장비":{"sections":[{"name":"청소","items":[{"t":"Vacuum","n":"","r":false},{"t":"Dust pan","n":"","r":false},{"t":"Broom","n":"","r":false},{"t":"Garbage bag","n":"","r":false},{"t":"Blower","n":"","r":false}]}]},"Deck":{"sections":[{"name":"Demo","items":[{"t":"빠루","n":"","r":false},{"t":"오함마","n":"","r":false}]},{"name":"Tools","items":[{"t":"Mitre sa","n":"","r":false},{"t":"Mitre saw stand","n":"","r":false}]}]}},"탭순서":["철거","바닥공사","도장","전기·설비","도배·마감","필수장비","Deck"],"checked":{"철거||0||0":false},"collapsed":{"필수장비__0":false}};</script></head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div>
+      <div class="app-title">🔧 공사 준비물 체크리스트</div>
+      <div class="app-sub">작업별 사전 준비 항목 관리</div>
+    </div>
+    <div class="header-right">
+      <div class="stats-row">
+        <div class="stat"><div class="stat-n" id="s-done">0</div><div class="stat-l">완료</div></div>
+        <div class="stat"><div class="stat-n" id="s-all">4</div><div class="stat-l">전체</div></div>
+      </div>
+      <button class="export-btn" onclick="exportFile()">💾 내보내기</button>
+      <button class="edit-btn" id="editBtn" onclick="toggleEdit()">편집</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="tabs-scroll"><div class="tabs" id="tabs"><button class="tab" onclick="switchTab('철거')">🔨 철거</button>
+    <button class="tab" onclick="switchTab('바닥공사')">🏠 바닥공사</button>
+    <button class="tab" onclick="switchTab('도장')">🖌️ 도장</button>
+    <button class="tab" onclick="switchTab('전기·설비')">⚡ 전기·설비</button>
+    <button class="tab" onclick="switchTab('도배·마감')">📋 도배·마감</button>
+    <button class="tab" onclick="switchTab('필수장비')">📁 필수장비</button>
+    <button class="tab active" onclick="switchTab('Deck')">📁 Deck</button>
+    </div></div>
+  <div id="sections"><div class="section" draggable="false" data-si="0" ondragstart="onSD(event,0)" ondragover="onSDO(event)" ondrop="onSDP(event,0)" ondragleave="onSDL(event)">
+      <div class="sec-head" onclick="toggleSec(0)">
+        <div class="sec-icon" style="background:#F1EFE8">📁</div>
+        <span class="sec-name">Demo</span>
+        <span class="sec-prog">0/2</span>
+        <div class="pbar-w"><div class="pbar" style="width:0%"></div></div>
+        
+        <span class="chevron open">▾</span>
+      </div>
+      <div class="items">
+        <div class="item" draggable="false" data-ii="0" ondragstart="onID(event,0,0)" ondragover="onIDO(event)" ondrop="onIDP(event,0,0)" ondragleave="onIDL(event)">
+            <span class="drag-h">⠿</span>
+            <div class="cb" onclick="toggleItem(0,0)"></div>
+            <div class="item-body">
+              <div class="item-text">빠루<span class="badge b-opt">선택</span></div>
+              
+              
+            </div>
+            <button class="item-del" onclick="delItem(0,0)">✕</button>
+          </div><div class="item" draggable="false" data-ii="1" ondragstart="onID(event,0,1)" ondragover="onIDO(event)" ondrop="onIDP(event,0,1)" ondragleave="onIDL(event)">
+            <span class="drag-h">⠿</span>
+            <div class="cb" onclick="toggleItem(0,1)"></div>
+            <div class="item-body">
+              <div class="item-text">오함마<span class="badge b-opt">선택</span></div>
+              
+              
+            </div>
+            <button class="item-del" onclick="delItem(0,1)">✕</button>
+          </div>
+        
+      </div>
+    </div><div class="section" draggable="false" data-si="1" ondragstart="onSD(event,1)" ondragover="onSDO(event)" ondrop="onSDP(event,1)" ondragleave="onSDL(event)">
+      <div class="sec-head" onclick="toggleSec(1)">
+        <div class="sec-icon" style="background:#F1EFE8">📁</div>
+        <span class="sec-name">Tools</span>
+        <span class="sec-prog">0/2</span>
+        <div class="pbar-w"><div class="pbar" style="width:0%"></div></div>
+        
+        <span class="chevron open">▾</span>
+      </div>
+      <div class="items">
+        <div class="item" draggable="false" data-ii="0" ondragstart="onID(event,1,0)" ondragover="onIDO(event)" ondrop="onIDP(event,1,0)" ondragleave="onIDL(event)">
+            <span class="drag-h">⠿</span>
+            <div class="cb" onclick="toggleItem(1,0)"></div>
+            <div class="item-body">
+              <div class="item-text">Mitre sa<span class="badge b-opt">선택</span></div>
+              
+              
+            </div>
+            <button class="item-del" onclick="delItem(1,0)">✕</button>
+          </div><div class="item" draggable="false" data-ii="1" ondragstart="onID(event,1,1)" ondragover="onIDO(event)" ondrop="onIDP(event,1,1)" ondragleave="onIDL(event)">
+            <span class="drag-h">⠿</span>
+            <div class="cb" onclick="toggleItem(1,1)"></div>
+            <div class="item-body">
+              <div class="item-text">Mitre saw stand<span class="badge b-opt">선택</span></div>
+              
+              
+            </div>
+            <button class="item-del" onclick="delItem(1,1)">✕</button>
+          </div>
+        
+      </div>
+    </div></div>
+</div>
+<div class="save-notice" id="saveNotice">저장됨</div>
+
+<script>
+const ICONS={철거:"🔨",바닥공사:"🏠",도장:"🖌️","전기·설비":"⚡","도배·마감":"📋"};
+const COLORS={철거:"#FAECE7",바닥공사:"#E6F1FB",도장:"#EAF3DE","전기·설비":"#FAEEDA","도배·마감":"#EEEDFE"};
+const DEFAULT={
+  탭순서:["철거","바닥공사","도장","전기·설비","도배·마감"],
+  data:{
+    철거:{sections:[
+      {name:"안전 장비",items:[
+        {t:"방진 마스크 (N95 이상)",n:"분진 많음, 여분 준비",r:true},
+        {t:"안전 고글",n:"파편 비산 대비",r:true},
+        {t:"안전모",n:"낙하물 대비",r:true},
+        {t:"방진복 또는 작업복",n:"",r:false},
+        {t:"안전화",n:"",r:true},
+        {t:"귀마개",n:"소음 보호",r:false},
+      ]},
+      {name:"철거 공구",items:[
+        {t:"전동 해머 드릴 / 브레이커",n:"",r:true},
+        {t:"빠루 (쇠지레대)",n:"",r:true},
+        {t:"슬레지 해머",n:"",r:true},
+        {t:"전동 그라인더",n:"절단용",r:false},
+      ]},
+      {name:"현장 준비",items:[
+        {t:"폐기물 마대 (톤백)",n:"",r:true},
+        {t:"타포린 / 방진 시트",n:"인접 공간 보호",r:true},
+        {t:"테이프 (마스킹, 청테이프)",n:"",r:true},
+        {t:"전기 차단 확인",n:"작업 전 필수",r:true},
+        {t:"수도 잠금 확인",n:"",r:true},
+      ]},
+    ]},
+    바닥공사:{sections:[
+      {name:"재료",items:[
+        {t:"마루 / 타일 / 강마루 자재",n:"면적 + 5% 여유 주문",r:true},
+        {t:"셀프 레벨링 몰탈",n:"바닥 평탄화",r:false},
+        {t:"방수 도막재",n:"욕실·주방 필수",r:false},
+        {t:"본드 / 접착제",n:"재질에 맞는 제품",r:true},
+        {t:"줄눈재",n:"타일 시공 시",r:false},
+      ]},
+      {name:"공구",items:[
+        {t:"타일 커터 / 앵글 그라인더",n:"",r:true},
+        {t:"수평계 (레이저 포함)",n:"",r:true},
+        {t:"고무 망치",n:"",r:true},
+        {t:"십자 스페이서",n:"타일 간격 유지",r:false},
+      ]},
+      {name:"사전 확인",items:[
+        {t:"바닥 수분 측정",n:"수분 8% 이하 권장",r:true},
+        {t:"불량 부위 보수",n:"균열·들뜸 확인",r:true},
+        {t:"바닥 레벨 체크",n:"1m당 2mm 이내",r:true},
+      ]},
+    ]},
+    도장:{sections:[
+      {name:"재료",items:[
+        {t:"도료 (수성 / 유성)",n:"면적·용도에 맞게",r:true},
+        {t:"하도 프라이머",n:"흡수율 높은 면 필수",r:true},
+        {t:"퍼티 (벽면 메우기용)",n:"",r:true},
+        {t:"샌드페이퍼 (80·120·220방)",n:"",r:true},
+      ]},
+      {name:"도구",items:[
+        {t:"롤러 (중모·단모)",n:"",r:true},
+        {t:"붓 (각종 사이즈)",n:"",r:true},
+        {t:"스프레이 건",n:"넓은 면적·무늬 도장",r:false},
+        {t:"마스킹 테이프",n:"경계 보호",r:true},
+        {t:"양면 비닐 시트",n:"바닥·가구 보호",r:true},
+      ]},
+      {name:"준비 사항",items:[
+        {t:"환기 계획 수립",n:"VOC 배출 필수",r:true},
+        {t:"온도·습도 확인",n:"5°C 이상, 습도 85% 이하",r:true},
+        {t:"기존 도장면 오염 제거",n:"유분·먼지",r:true},
+      ]},
+    ]},
+    "전기·설비":{sections:[
+      {name:"재료",items:[
+        {t:"전선 (HFIX 1.5·2.5·4.0mm²)",n:"",r:true},
+        {t:"CD 파이프 / 후렉시블",n:"전선 보호관",r:true},
+        {t:"콘센트·스위치 박스",n:"",r:true},
+        {t:"실리콘 (방수용)",n:"",r:true},
+      ]},
+      {name:"공구",items:[
+        {t:"검전기 (테스터기)",n:"작업 전 반드시",r:true},
+        {t:"전선 스트리퍼",n:"",r:true},
+        {t:"절연 장갑",n:"",r:true},
+        {t:"멀티미터",n:"",r:false},
+      ]},
+      {name:"안전·행정",items:[
+        {t:"한전 단전 신청 또는 차단기 OFF",n:"",r:true},
+        {t:"전기 도면 확인",n:"기존 배선 파악",r:true},
+        {t:"전기공사 면허 보유 확인",n:"법적 요건",r:true},
+      ]},
+    ]},
+    "도배·마감":{sections:[
+      {name:"재료",items:[
+        {t:"벽지 (합지 / 실크)",n:"면적 + 10% 여유",r:true},
+        {t:"도배 풀",n:"",r:true},
+        {t:"초배지",n:"초배 시공 시",r:false},
+        {t:"실리콘 (투명·백색)",n:"틈새 마감",r:true},
+      ]},
+      {name:"공구",items:[
+        {t:"도배 솔 / 롤러",n:"",r:true},
+        {t:"커터칼 및 여분 날",n:"",r:true},
+        {t:"스크레이퍼",n:"기존 벽지 제거",r:true},
+        {t:"줄자",n:"",r:true},
+      ]},
+      {name:"준비 사항",items:[
+        {t:"기존 벽지 상태 확인",n:"들뜸·곰팡이 여부",r:true},
+        {t:"벽면 균열 퍼티 보수",n:"",r:true},
+        {t:"실내 온도 유지",n:"15°C 이상 권장",r:true},
+      ]},
+    ]},
+  }
+};
+
+function loadState(){
+  try{
+    if(window.__SAVED_STATE__){const p=window.__SAVED_STATE__;localStorage.setItem('remodel_v2',JSON.stringify(p));return{data:p.data,탭순서:p.탭순서,checked:p.checked||{},collapsed:p.collapsed||{}};}
+    const s=localStorage.getItem('remodel_v2');
+    if(s){const p=JSON.parse(s);return{data:p.data,탭순서:p.탭순서,checked:p.checked||{},collapsed:p.collapsed||{}};}
+  }catch(e){}
+  return{data:JSON.parse(JSON.stringify(DEFAULT.data)),탭순서:[...DEFAULT.탭순서],checked:{},collapsed:{}};
+}
+
+function saveState(){
+  try{
+    localStorage.setItem('remodel_v2',JSON.stringify({data,탭순서,checked,collapsed}));
+    const n=document.getElementById('saveNotice');n.classList.add('show');setTimeout(()=>n.classList.remove('show'),1500);
+  }catch(e){}
+}
+function exportFile(){
+  const state=JSON.stringify({data,탭순서,checked,collapsed});
+  const html=document.documentElement.outerHTML;
+  // 현재 HTML에서 DEFAULT 데이터를 현재 데이터로 교체한 새 파일 생성
+  const scriptTag = `<script>window.__SAVED_STATE__=${state};</scr`+`ipt>`;
+  const newHtml = html.replace('</head>', scriptTag+'</head>');
+  const blob=new Blob([newHtml],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='공사체크리스트.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+
+let {data,탭순서,checked,collapsed}=loadState();
+let cur=탭순서[0]||'';
+let editMode=false;
+let addingItemTo=null,addingSection=false,addingTab=false;
+let dragSrc=null,itemDragSrc=null;
+
+function ikey(tab,si,ii){return tab+'||'+si+'||'+ii}
+function isDone(si,ii){return !!checked[ikey(cur,si,ii)]}
+
+function updateStats(){
+  let total=0,done=0;
+  (data[cur]?.sections||[]).forEach((s,si)=>s.items.forEach((_,ii)=>{total++;if(isDone(si,ii))done++;}));
+  document.getElementById('s-done').textContent=done;
+  document.getElementById('s-all').textContent=total;
+}
+
+function toggleEdit(){
+  editMode=!editMode;
+  const btn=document.getElementById('editBtn');
+  btn.textContent=editMode?'편집 완료':'편집';
+  btn.className='edit-btn'+(editMode?' on':'');
+  document.querySelector('.main').className='main'+(editMode?' edit-mode':'');
+  if(!editMode)saveState();
+  render();
+}
+
+let editingTab=null;
+function startEditTab(t){editingTab=t;renderTabs();setTimeout(()=>{const e=document.getElementById('tab-edit-inp');if(e){e.focus();e.select();}},30);}
+function confirmEditTab(oldName){
+  const e=document.getElementById('tab-edit-inp');
+  const v=e?e.value.trim():'';
+  if(v&&v!==oldName){
+    const idx=탭순서.indexOf(oldName);
+    if(idx>-1){
+      탭순서[idx]=v;data[v]=data[oldName];delete data[oldName];
+      ICONS[v]=ICONS[oldName]||'📁';COLORS[v]=COLORS[oldName]||'#F1EFE8';
+      if(cur===oldName)cur=v;
+    }
+  }
+  editingTab=null;render();
+}
+function renderTabs(){
+  const el=document.getElementById('tabs');
+  let h=탭순서.map(t=>{
+    if(editMode&&editingTab===t){
+      return `<span style="display:inline-flex;align-items:center;gap:4px">
+        <input id="tab-edit-inp" class="tab-name-inp" value="${t}" onkeydown="if(event.key==='Enter')confirmEditTab('${t}')" onblur="confirmEditTab('${t}')">
+      </span>`;
+    }
+    return `<button class="tab${t===cur?' active':''}" onclick="${editMode?`startEditTab('${t}')`:`switchTab('${t}')`}">${ICONS[t]||'📁'} ${t}${editMode?' ✎':''}</button>
+    ${editMode&&탭순서.length>1?`<button class="tab-del" onclick="delTab('${t}')">✕</button>`:''}`;
+  }).join('');
+  if(editMode){
+    if(addingTab){
+      h+=`<span style="display:inline-flex;gap:5px;align-items:center">
+        <input id="nt-inp" type="text" placeholder="카테고리명" style="width:90px;font-size:13px;padding:5px 8px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:var(--card);color:var(--text)" onkeydown="if(event.key==='Enter')confirmAddTab()">
+        <button onclick="confirmAddTab()" style="padding:5px 10px;font-size:13px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;cursor:pointer;color:var(--text)">추가</button>
+        <button onclick="addingTab=false;renderTabs()" style="padding:5px 8px;font-size:13px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;cursor:pointer;color:var(--text2)">취소</button>
+      </span>`;
+    }else{
+      h+=`<button class="add-tab-btn" onclick="addingTab=true;renderTabs()">+ 카테고리</button>`;
+    }
+  }
+  el.innerHTML=h;
+  if(addingTab)setTimeout(()=>{const e=document.getElementById('nt-inp');if(e)e.focus();},30);
+}
+
+function renderSections(){
+  const wrap=document.getElementById('sections');
+  const secs=data[cur]?.sections||[];
+  const color=COLORS[cur]||'#F1EFE8';
+  const icon=ICONS[cur]||'📁';
+  let h=secs.map((sec,si)=>{
+    const total=sec.items.length;
+    const done=sec.items.filter((_,ii)=>isDone(si,ii)).length;
+    const pct=total?Math.round(done/total*100):0;
+    const isOpen=collapsed[cur+'__'+si]!==true;
+    return `<div class="section" draggable="${editMode}" data-si="${si}"
+      ondragstart="onSD(event,${si})" ondragover="onSDO(event)" ondrop="onSDP(event,${si})" ondragleave="onSDL(event)">
+      <div class="sec-head" onclick="toggleSec(${si})">
+        <div class="sec-icon" style="background:${color}">${done===total&&total>0?'✓':icon}</div>
+        ${editMode
+          ?`<input class="sec-name-inp" value="${sec.name.replace(/"/g,'&quot;')}" onclick="event.stopPropagation()" oninput="sec_name(${si},this.value)">`
+          :`<span class="sec-name">${sec.name}</span>`}
+        <span class="sec-prog">${done}/${total}</span>
+        <div class="pbar-w"><div class="pbar" style="width:${pct}%"></div></div>
+        ${editMode?`<button class="sec-del-btn" onclick="event.stopPropagation();delSec(${si})">✕</button>`:''}
+        <span class="chevron${isOpen?' open':''}">▾</span>
+      </div>
+      ${isOpen?`<div class="items">
+        ${sec.items.map((item,ii)=>{
+          const d=isDone(si,ii);
+          return `<div class="item" draggable="${editMode}" data-ii="${ii}"
+            ondragstart="onID(event,${si},${ii})" ondragover="onIDO(event)" ondrop="onIDP(event,${si},${ii})" ondragleave="onIDL(event)">
+            <span class="drag-h">⠿</span>
+            <div class="cb${d?' on':''}" onclick="toggleItem(${si},${ii})">${d?'✓':''}</div>
+            <div class="item-body">
+              ${editMode
+                ?`<input class="item-txt-inp" value="${item.t.replace(/"/g,'&quot;')}" oninput="item_t(${si},${ii},this.value)">`
+                :`<div class="item-text${d?' done':''}">${item.t}<span class="badge ${item.r?'b-req':'b-opt'}">${item.r?'필수':'선택'}</span></div>`}
+              ${editMode
+                ?`<input class="item-note-inp" value="${item.n.replace(/"/g,'&quot;')}" placeholder="메모..." oninput="item_n(${si},${ii},this.value)">`
+                :(item.n?`<div class="item-note">${item.n}</div>`:'')}
+              ${editMode?`<button class="req-toggle" onclick="toggleReq(${si},${ii})">${item.r?'필수 → 선택':'선택 → 필수'}</button>`:''}
+            </div>
+            <button class="item-del" onclick="delItem(${si},${ii})">✕</button>
+          </div>`;
+        }).join('')}
+        ${editMode?(addingItemTo===cur+'__'+si
+          ?`<div class="inline-row">
+              <input id="ni-inp" type="text" placeholder="항목명..." onkeydown="if(event.key==='Enter')confirmAddItem(${si})">
+              <button onclick="confirmAddItem(${si})">추가</button>
+              <button onclick="addingItemTo=null;render()">취소</button>
+            </div>`
+          :`<button class="add-item-btn" onclick="startAddItem(${si})">＋ 항목 추가</button>`):''}
+      </div>`:''}
+    </div>`;
+  }).join('');
+  if(editMode){
+    if(addingSection){
+      h+=`<div style="display:flex;gap:6px;margin-bottom:10px">
+        <input id="ns-inp" type="text" placeholder="섹션 이름..." style="flex:1;font-size:13px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:var(--card);color:var(--text)" onkeydown="if(event.key==='Enter')confirmAddSec()">
+        <button onclick="confirmAddSec()" style="padding:7px 14px;font-size:13px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;cursor:pointer;color:var(--text)">추가</button>
+        <button onclick="addingSection=false;render()" style="padding:7px 10px;font-size:13px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;cursor:pointer;color:var(--text2)">취소</button>
+      </div>`;
+    }else{
+      h+=`<button class="add-sec-btn" onclick="addingSection=true;render()">＋ 섹션 추가</button>`;
+    }
+  }
+  wrap.innerHTML=h;
+  if(addingItemTo)setTimeout(()=>{const e=document.getElementById('ni-inp');if(e)e.focus();},30);
+  if(addingSection)setTimeout(()=>{const e=document.getElementById('ns-inp');if(e)e.focus();},30);
+  updateStats();
+}
+
+function render(){renderTabs();renderSections();}
+function switchTab(t){cur=t;addingItemTo=null;addingSection=false;render();}
+function toggleSec(si){collapsed[cur+'__'+si]=!collapsed[cur+'__'+si];render();}
+function toggleItem(si,ii){checked[ikey(cur,si,ii)]=!checked[ikey(cur,si,ii)];saveState();render();}
+function toggleReq(si,ii){data[cur].sections[si].items[ii].r=!data[cur].sections[si].items[ii].r;render();}
+function sec_name(si,v){data[cur].sections[si].name=v;}
+function item_t(si,ii,v){data[cur].sections[si].items[ii].t=v;}
+function item_n(si,ii,v){data[cur].sections[si].items[ii].n=v;}
+function delSec(si){if(!confirm('섹션을 삭제할까요?'))return;data[cur].sections.splice(si,1);render();}
+function delItem(si,ii){data[cur].sections[si].items.splice(ii,1);render();}
+function delTab(t){
+  if(!confirm(`"${t}" 카테고리를 삭제할까요?`))return;
+  delete data[t];탭순서=탭순서.filter(x=>x!==t);
+  if(cur===t)cur=탭순서[0]||'';render();
+}
+function startAddItem(si){addingItemTo=cur+'__'+si;render();}
+function confirmAddItem(si){
+  const e=document.getElementById('ni-inp');const v=e?e.value.trim():'';
+  if(v)data[cur].sections[si].items.push({t:v,n:'',r:false});
+  addingItemTo=null;render();
+}
+function confirmAddSec(){
+  const e=document.getElementById('ns-inp');const v=e?e.value.trim():'';
+  if(v)data[cur].sections.push({name:v,items:[]});
+  addingSection=false;render();
+}
+function confirmAddTab(){
+  const e=document.getElementById('nt-inp');const v=e?e.value.trim():'';
+  if(v){data[v]={sections:[]};탭순서.push(v);ICONS[v]='📁';COLORS[v]='#F1EFE8';cur=v;}
+  addingTab=false;render();
+}
+function onSD(e,si){dragSrc={si};e.dataTransfer.effectAllowed='move';}
+function onSDO(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function onSDL(e){e.currentTarget.classList.remove('drag-over');}
+function onSDP(e,si){
+  e.currentTarget.classList.remove('drag-over');
+  if(!dragSrc||dragSrc.si===si)return;
+  const [m]=data[cur].sections.splice(dragSrc.si,1);data[cur].sections.splice(si,0,m);
+  dragSrc=null;render();
+}
+function onID(e,si,ii){itemDragSrc={si,ii};e.stopPropagation();e.dataTransfer.effectAllowed='move';}
+function onIDO(e){e.preventDefault();e.stopPropagation();e.currentTarget.classList.add('drag-over');}
+function onIDL(e){e.currentTarget.classList.remove('drag-over');}
+function onIDP(e,si,ii){
+  e.stopPropagation();e.currentTarget.classList.remove('drag-over');
+  if(!itemDragSrc||(itemDragSrc.si===si&&itemDragSrc.ii===ii))return;
+  const [m]=data[itemDragSrc.si]?data[cur].sections[itemDragSrc.si].items.splice(itemDragSrc.ii,1):[];
+  if(m)data[cur].sections[si].items.splice(ii,0,m);
+  itemDragSrc=null;render();
+}
+render();
+</script>
+
+
+</body></html>
