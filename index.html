@@ -1,7 +1,15 @@
-<html lang="ko"><head>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>공사 준비물 체크리스트</title>
+<meta name="theme-color" content="#1D9E75">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="공사 체크리스트">
+<link rel="manifest" href="manifest.json">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   :root{
@@ -83,7 +91,7 @@
   .export-btn{padding:7px 14px;font-size:13px;border-radius:var(--radius-sm);border:1px solid var(--green);background:var(--green-bg);color:var(--green-text);cursor:pointer;font-weight:500;white-space:nowrap}
   .drag-over{border-top:2px solid var(--green)}
 </style>
-<script>window.__SAVED_STATE__={"data":{"철거":{"sections":[{"name":"안전 장비","items":[{"t":"방진 마스크 (N95 이상)","n":"분진 많음, 여분 준비","r":true},{"t":"안전 고글","n":"파편 비산 대비","r":true},{"t":"안전모","n":"낙하물 대비","r":true},{"t":"방진복 또는 작업복","n":"","r":false},{"t":"안전화","n":"","r":true},{"t":"귀마개","n":"소음 보호","r":false}]},{"name":"철거 공구","items":[{"t":"전동 해머 드릴 / 브레이커","n":"","r":true},{"t":"빠루 (쇠지레대)","n":"","r":true},{"t":"슬레지 해머","n":"","r":true},{"t":"전동 그라인더","n":"절단용","r":false}]},{"name":"현장 준비","items":[{"t":"폐기물 마대 (톤백)","n":"","r":true},{"t":"타포린 / 방진 시트","n":"인접 공간 보호","r":true},{"t":"테이프 (마스킹, 청테이프)","n":"","r":true},{"t":"전기 차단 확인","n":"작업 전 필수","r":true},{"t":"수도 잠금 확인","n":"","r":true},{"t":"Vinyl sheet","n":"","r":false},{"t":"Masking tape","n":"","r":false}]}]},"바닥공사":{"sections":[{"name":"재료","items":[{"t":"마루 / 타일 / 강마루 자재","n":"면적 + 5% 여유 주문","r":true},{"t":"셀프 레벨링 몰탈","n":"바닥 평탄화","r":false},{"t":"방수 도막재","n":"욕실·주방 필수","r":false},{"t":"본드 / 접착제","n":"재질에 맞는 제품","r":true},{"t":"줄눈재","n":"타일 시공 시","r":false}]},{"name":"공구","items":[{"t":"타일 커터 / 앵글 그라인더","n":"","r":true},{"t":"수평계 (레이저 포함)","n":"","r":true},{"t":"고무 망치","n":"","r":true},{"t":"스페이서","n":"타일 간격 유지","r":false},{"t":"Mitre saw","n":"","r":false},{"t":"Table saw","n":"","r":false},{"t":"Jig saw","n":"","r":false},{"t":"Table","n":"","r":false}]},{"name":"사전 확인","items":[{"t":"바닥 수분 측정","n":"수분 8% 이하 권장","r":true},{"t":"불량 부위 보수","n":"균열·들뜸 확인","r":true},{"t":"바닥 레벨 체크","n":"1m당 2mm 이내","r":true}]}]},"도장":{"sections":[{"name":"재료","items":[{"t":"도료 (수성 / 유성)","n":"면적·용도에 맞게","r":true},{"t":"하도 프라이머","n":"흡수율 높은 면 필수","r":true},{"t":"퍼티 (벽면 메우기용)","n":"","r":true},{"t":"샌드페이퍼 (80·120·220방)","n":"","r":true}]},{"name":"도구","items":[{"t":"롤러 (중모·단모)","n":"","r":true},{"t":"붓 (각종 사이즈)","n":"","r":true},{"t":"스프레이 건","n":"넓은 면적·무늬 도장","r":false},{"t":"마스킹 테이프","n":"경계 보호","r":true},{"t":"양면 비닐 시트","n":"바닥·가구 보호","r":true}]},{"name":"준비 사항","items":[{"t":"환기 계획 수립","n":"VOC 배출 필수","r":true},{"t":"온도·습도 확인","n":"5°C 이상, 습도 85% 이하","r":true},{"t":"기존 도장면 오염 제거","n":"유분·먼지","r":true}]}]},"전기·설비":{"sections":[{"name":"재료","items":[{"t":"전선 (HFIX 1.5·2.5·4.0mm²)","n":"","r":true},{"t":"CD 파이프 / 후렉시블","n":"전선 보호관","r":true},{"t":"콘센트·스위치 박스","n":"","r":true},{"t":"실리콘 (방수용)","n":"","r":true}]},{"name":"공구","items":[{"t":"검전기 (테스터기)","n":"작업 전 반드시","r":true},{"t":"전선 스트리퍼","n":"","r":true},{"t":"절연 장갑","n":"","r":true},{"t":"멀티미터","n":"","r":false}]},{"name":"안전·행정","items":[{"t":"한전 단전 신청 또는 차단기 OFF","n":"","r":true},{"t":"전기 도면 확인","n":"기존 배선 파악","r":true},{"t":"전기공사 면허 보유 확인","n":"법적 요건","r":true}]}]},"도배·마감":{"sections":[{"name":"재료","items":[{"t":"벽지 (합지 / 실크)","n":"면적 + 10% 여유","r":true},{"t":"도배 풀","n":"","r":true},{"t":"초배지","n":"초배 시공 시","r":false},{"t":"실리콘 (투명·백색)","n":"틈새 마감","r":true}]},{"name":"공구","items":[{"t":"도배 솔 / 롤러","n":"","r":true},{"t":"커터칼 및 여분 날","n":"","r":true},{"t":"스크레이퍼","n":"기존 벽지 제거","r":true},{"t":"줄자","n":"","r":true}]},{"name":"준비 사항","items":[{"t":"기존 벽지 상태 확인","n":"들뜸·곰팡이 여부","r":true},{"t":"벽면 균열 퍼티 보수","n":"","r":true},{"t":"실내 온도 유지","n":"15°C 이상 권장","r":true}]}]},"필수장비":{"sections":[{"name":"청소","items":[{"t":"Vacuum","n":"","r":false},{"t":"Dust pan","n":"","r":false},{"t":"Broom","n":"","r":false},{"t":"Garbage bag","n":"","r":false},{"t":"Blower","n":"","r":false}]}]}},"탭순서":["철거","바닥공사","도장","전기·설비","도배·마감","필수장비"],"checked":{"철거||0||0":false},"collapsed":{"필수장비__0":false}};</script><script>window.__SAVED_STATE__={"data":{"철거":{"sections":[{"name":"안전 장비","items":[{"t":"방진 마스크 (N95 이상)","n":"분진 많음, 여분 준비","r":true},{"t":"안전 고글","n":"파편 비산 대비","r":true},{"t":"안전모","n":"낙하물 대비","r":true},{"t":"방진복 또는 작업복","n":"","r":false},{"t":"안전화","n":"","r":true},{"t":"귀마개","n":"소음 보호","r":false}]},{"name":"철거 공구","items":[{"t":"전동 해머 드릴 / 브레이커","n":"","r":true},{"t":"빠루 (쇠지레대)","n":"","r":true},{"t":"슬레지 해머","n":"","r":true},{"t":"전동 그라인더","n":"절단용","r":false}]},{"name":"현장 준비","items":[{"t":"폐기물 마대 (톤백)","n":"","r":true},{"t":"타포린 / 방진 시트","n":"인접 공간 보호","r":true},{"t":"테이프 (마스킹, 청테이프)","n":"","r":true},{"t":"전기 차단 확인","n":"작업 전 필수","r":true},{"t":"수도 잠금 확인","n":"","r":true},{"t":"Vinyl sheet","n":"","r":false},{"t":"Masking tape","n":"","r":false}]}]},"바닥공사":{"sections":[{"name":"재료","items":[{"t":"마루 / 타일 / 강마루 자재","n":"면적 + 5% 여유 주문","r":true},{"t":"셀프 레벨링 몰탈","n":"바닥 평탄화","r":false},{"t":"방수 도막재","n":"욕실·주방 필수","r":false},{"t":"본드 / 접착제","n":"재질에 맞는 제품","r":true},{"t":"줄눈재","n":"타일 시공 시","r":false}]},{"name":"공구","items":[{"t":"타일 커터 / 앵글 그라인더","n":"","r":true},{"t":"수평계 (레이저 포함)","n":"","r":true},{"t":"고무 망치","n":"","r":true},{"t":"스페이서","n":"타일 간격 유지","r":false},{"t":"Mitre saw","n":"","r":false},{"t":"Table saw","n":"","r":false},{"t":"Jig saw","n":"","r":false},{"t":"Table","n":"","r":false}]},{"name":"사전 확인","items":[{"t":"바닥 수분 측정","n":"수분 8% 이하 권장","r":true},{"t":"불량 부위 보수","n":"균열·들뜸 확인","r":true},{"t":"바닥 레벨 체크","n":"1m당 2mm 이내","r":true}]}]},"도장":{"sections":[{"name":"재료","items":[{"t":"도료 (수성 / 유성)","n":"면적·용도에 맞게","r":true},{"t":"하도 프라이머","n":"흡수율 높은 면 필수","r":true},{"t":"퍼티 (벽면 메우기용)","n":"","r":true},{"t":"샌드페이퍼 (80·120·220방)","n":"","r":true}]},{"name":"도구","items":[{"t":"롤러 (중모·단모)","n":"","r":true},{"t":"붓 (각종 사이즈)","n":"","r":true},{"t":"스프레이 건","n":"넓은 면적·무늬 도장","r":false},{"t":"마스킹 테이프","n":"경계 보호","r":true},{"t":"양면 비닐 시트","n":"바닥·가구 보호","r":true}]},{"name":"준비 사항","items":[{"t":"환기 계획 수립","n":"VOC 배출 필수","r":true},{"t":"온도·습도 확인","n":"5°C 이상, 습도 85% 이하","r":true},{"t":"기존 도장면 오염 제거","n":"유분·먼지","r":true}]}]},"전기·설비":{"sections":[{"name":"재료","items":[{"t":"전선 (HFIX 1.5·2.5·4.0mm²)","n":"","r":true},{"t":"CD 파이프 / 후렉시블","n":"전선 보호관","r":true},{"t":"콘센트·스위치 박스","n":"","r":true},{"t":"실리콘 (방수용)","n":"","r":true}]},{"name":"공구","items":[{"t":"검전기 (테스터기)","n":"작업 전 반드시","r":true},{"t":"전선 스트리퍼","n":"","r":true},{"t":"절연 장갑","n":"","r":true},{"t":"멀티미터","n":"","r":false}]},{"name":"안전·행정","items":[{"t":"한전 단전 신청 또는 차단기 OFF","n":"","r":true},{"t":"전기 도면 확인","n":"기존 배선 파악","r":true},{"t":"전기공사 면허 보유 확인","n":"법적 요건","r":true}]}]},"도배·마감":{"sections":[{"name":"재료","items":[{"t":"벽지 (합지 / 실크)","n":"면적 + 10% 여유","r":true},{"t":"도배 풀","n":"","r":true},{"t":"초배지","n":"초배 시공 시","r":false},{"t":"실리콘 (투명·백색)","n":"틈새 마감","r":true}]},{"name":"공구","items":[{"t":"도배 솔 / 롤러","n":"","r":true},{"t":"커터칼 및 여분 날","n":"","r":true},{"t":"스크레이퍼","n":"기존 벽지 제거","r":true},{"t":"줄자","n":"","r":true}]},{"name":"준비 사항","items":[{"t":"기존 벽지 상태 확인","n":"들뜸·곰팡이 여부","r":true},{"t":"벽면 균열 퍼티 보수","n":"","r":true},{"t":"실내 온도 유지","n":"15°C 이상 권장","r":true}]}]},"필수장비":{"sections":[{"name":"청소","items":[{"t":"Vacuum","n":"","r":false},{"t":"Dust pan","n":"","r":false},{"t":"Broom","n":"","r":false},{"t":"Garbage bag","n":"","r":false},{"t":"Blower","n":"","r":false}]}]},"Deck":{"sections":[{"name":"Demo","items":[{"t":"빠루","n":"","r":false}]}]}},"탭순서":["철거","바닥공사","도장","전기·설비","도배·마감","필수장비","Deck"],"checked":{"철거||0||0":false},"collapsed":{"필수장비__0":false}};</script><script>window.__SAVED_STATE__={"data":{"철거":{"sections":[{"name":"안전 장비","items":[{"t":"방진 마스크 (N95 이상)","n":"분진 많음, 여분 준비","r":true},{"t":"안전 고글","n":"파편 비산 대비","r":true},{"t":"안전모","n":"낙하물 대비","r":true},{"t":"방진복 또는 작업복","n":"","r":false},{"t":"안전화","n":"","r":true},{"t":"귀마개","n":"소음 보호","r":false}]},{"name":"철거 공구","items":[{"t":"전동 해머 드릴 / 브레이커","n":"","r":true},{"t":"빠루 (쇠지레대)","n":"","r":true},{"t":"슬레지 해머","n":"","r":true},{"t":"전동 그라인더","n":"절단용","r":false}]},{"name":"현장 준비","items":[{"t":"폐기물 마대 (톤백)","n":"","r":true},{"t":"타포린 / 방진 시트","n":"인접 공간 보호","r":true},{"t":"테이프 (마스킹, 청테이프)","n":"","r":true},{"t":"전기 차단 확인","n":"작업 전 필수","r":true},{"t":"수도 잠금 확인","n":"","r":true},{"t":"Vinyl sheet","n":"","r":false},{"t":"Masking tape","n":"","r":false}]}]},"바닥공사":{"sections":[{"name":"재료","items":[{"t":"마루 / 타일 / 강마루 자재","n":"면적 + 5% 여유 주문","r":true},{"t":"셀프 레벨링 몰탈","n":"바닥 평탄화","r":false},{"t":"방수 도막재","n":"욕실·주방 필수","r":false},{"t":"본드 / 접착제","n":"재질에 맞는 제품","r":true},{"t":"줄눈재","n":"타일 시공 시","r":false}]},{"name":"공구","items":[{"t":"타일 커터 / 앵글 그라인더","n":"","r":true},{"t":"수평계 (레이저 포함)","n":"","r":true},{"t":"고무 망치","n":"","r":true},{"t":"스페이서","n":"타일 간격 유지","r":false},{"t":"Mitre saw","n":"","r":false},{"t":"Table saw","n":"","r":false},{"t":"Jig saw","n":"","r":false},{"t":"Table","n":"","r":false}]},{"name":"사전 확인","items":[{"t":"바닥 수분 측정","n":"수분 8% 이하 권장","r":true},{"t":"불량 부위 보수","n":"균열·들뜸 확인","r":true},{"t":"바닥 레벨 체크","n":"1m당 2mm 이내","r":true}]}]},"도장":{"sections":[{"name":"재료","items":[{"t":"도료 (수성 / 유성)","n":"면적·용도에 맞게","r":true},{"t":"하도 프라이머","n":"흡수율 높은 면 필수","r":true},{"t":"퍼티 (벽면 메우기용)","n":"","r":true},{"t":"샌드페이퍼 (80·120·220방)","n":"","r":true}]},{"name":"도구","items":[{"t":"롤러 (중모·단모)","n":"","r":true},{"t":"붓 (각종 사이즈)","n":"","r":true},{"t":"스프레이 건","n":"넓은 면적·무늬 도장","r":false},{"t":"마스킹 테이프","n":"경계 보호","r":true},{"t":"양면 비닐 시트","n":"바닥·가구 보호","r":true}]},{"name":"준비 사항","items":[{"t":"환기 계획 수립","n":"VOC 배출 필수","r":true},{"t":"온도·습도 확인","n":"5°C 이상, 습도 85% 이하","r":true},{"t":"기존 도장면 오염 제거","n":"유분·먼지","r":true}]}]},"전기·설비":{"sections":[{"name":"재료","items":[{"t":"전선 (HFIX 1.5·2.5·4.0mm²)","n":"","r":true},{"t":"CD 파이프 / 후렉시블","n":"전선 보호관","r":true},{"t":"콘센트·스위치 박스","n":"","r":true},{"t":"실리콘 (방수용)","n":"","r":true}]},{"name":"공구","items":[{"t":"검전기 (테스터기)","n":"작업 전 반드시","r":true},{"t":"전선 스트리퍼","n":"","r":true},{"t":"절연 장갑","n":"","r":true},{"t":"멀티미터","n":"","r":false}]},{"name":"안전·행정","items":[{"t":"한전 단전 신청 또는 차단기 OFF","n":"","r":true},{"t":"전기 도면 확인","n":"기존 배선 파악","r":true},{"t":"전기공사 면허 보유 확인","n":"법적 요건","r":true}]}]},"도배·마감":{"sections":[{"name":"재료","items":[{"t":"벽지 (합지 / 실크)","n":"면적 + 10% 여유","r":true},{"t":"도배 풀","n":"","r":true},{"t":"초배지","n":"초배 시공 시","r":false},{"t":"실리콘 (투명·백색)","n":"틈새 마감","r":true}]},{"name":"공구","items":[{"t":"도배 솔 / 롤러","n":"","r":true},{"t":"커터칼 및 여분 날","n":"","r":true},{"t":"스크레이퍼","n":"기존 벽지 제거","r":true},{"t":"줄자","n":"","r":true}]},{"name":"준비 사항","items":[{"t":"기존 벽지 상태 확인","n":"들뜸·곰팡이 여부","r":true},{"t":"벽면 균열 퍼티 보수","n":"","r":true},{"t":"실내 온도 유지","n":"15°C 이상 권장","r":true}]}]},"필수장비":{"sections":[{"name":"청소","items":[{"t":"Vacuum","n":"","r":false},{"t":"Dust pan","n":"","r":false},{"t":"Broom","n":"","r":false},{"t":"Garbage bag","n":"","r":false},{"t":"Blower","n":"","r":false}]}]},"Deck":{"sections":[{"name":"Demo","items":[{"t":"빠루","n":"","r":false},{"t":"오함마","n":"","r":false}]},{"name":"Tools","items":[{"t":"Mitre sa","n":"","r":false},{"t":"Mitre saw stand","n":"","r":false}]}]}},"탭순서":["철거","바닥공사","도장","전기·설비","도배·마감","필수장비","Deck"],"checked":{"철거||0||0":false},"collapsed":{"필수장비__0":false}};</script></head>
+</head>
 <body>
 
 <div class="topbar">
@@ -95,7 +103,7 @@
     <div class="header-right">
       <div class="stats-row">
         <div class="stat"><div class="stat-n" id="s-done">0</div><div class="stat-l">완료</div></div>
-        <div class="stat"><div class="stat-n" id="s-all">4</div><div class="stat-l">전체</div></div>
+        <div class="stat"><div class="stat-n" id="s-all">0</div><div class="stat-l">전체</div></div>
       </div>
       <button class="export-btn" onclick="exportFile()">💾 내보내기</button>
       <button class="edit-btn" id="editBtn" onclick="toggleEdit()">편집</button>
@@ -104,77 +112,8 @@
 </div>
 
 <div class="main">
-  <div class="tabs-scroll"><div class="tabs" id="tabs"><button class="tab" onclick="switchTab('철거')">🔨 철거</button>
-    <button class="tab" onclick="switchTab('바닥공사')">🏠 바닥공사</button>
-    <button class="tab" onclick="switchTab('도장')">🖌️ 도장</button>
-    <button class="tab" onclick="switchTab('전기·설비')">⚡ 전기·설비</button>
-    <button class="tab" onclick="switchTab('도배·마감')">📋 도배·마감</button>
-    <button class="tab" onclick="switchTab('필수장비')">📁 필수장비</button>
-    <button class="tab active" onclick="switchTab('Deck')">📁 Deck</button>
-    </div></div>
-  <div id="sections"><div class="section" draggable="false" data-si="0" ondragstart="onSD(event,0)" ondragover="onSDO(event)" ondrop="onSDP(event,0)" ondragleave="onSDL(event)">
-      <div class="sec-head" onclick="toggleSec(0)">
-        <div class="sec-icon" style="background:#F1EFE8">📁</div>
-        <span class="sec-name">Demo</span>
-        <span class="sec-prog">0/2</span>
-        <div class="pbar-w"><div class="pbar" style="width:0%"></div></div>
-        
-        <span class="chevron open">▾</span>
-      </div>
-      <div class="items">
-        <div class="item" draggable="false" data-ii="0" ondragstart="onID(event,0,0)" ondragover="onIDO(event)" ondrop="onIDP(event,0,0)" ondragleave="onIDL(event)">
-            <span class="drag-h">⠿</span>
-            <div class="cb" onclick="toggleItem(0,0)"></div>
-            <div class="item-body">
-              <div class="item-text">빠루<span class="badge b-opt">선택</span></div>
-              
-              
-            </div>
-            <button class="item-del" onclick="delItem(0,0)">✕</button>
-          </div><div class="item" draggable="false" data-ii="1" ondragstart="onID(event,0,1)" ondragover="onIDO(event)" ondrop="onIDP(event,0,1)" ondragleave="onIDL(event)">
-            <span class="drag-h">⠿</span>
-            <div class="cb" onclick="toggleItem(0,1)"></div>
-            <div class="item-body">
-              <div class="item-text">오함마<span class="badge b-opt">선택</span></div>
-              
-              
-            </div>
-            <button class="item-del" onclick="delItem(0,1)">✕</button>
-          </div>
-        
-      </div>
-    </div><div class="section" draggable="false" data-si="1" ondragstart="onSD(event,1)" ondragover="onSDO(event)" ondrop="onSDP(event,1)" ondragleave="onSDL(event)">
-      <div class="sec-head" onclick="toggleSec(1)">
-        <div class="sec-icon" style="background:#F1EFE8">📁</div>
-        <span class="sec-name">Tools</span>
-        <span class="sec-prog">0/2</span>
-        <div class="pbar-w"><div class="pbar" style="width:0%"></div></div>
-        
-        <span class="chevron open">▾</span>
-      </div>
-      <div class="items">
-        <div class="item" draggable="false" data-ii="0" ondragstart="onID(event,1,0)" ondragover="onIDO(event)" ondrop="onIDP(event,1,0)" ondragleave="onIDL(event)">
-            <span class="drag-h">⠿</span>
-            <div class="cb" onclick="toggleItem(1,0)"></div>
-            <div class="item-body">
-              <div class="item-text">Mitre sa<span class="badge b-opt">선택</span></div>
-              
-              
-            </div>
-            <button class="item-del" onclick="delItem(1,0)">✕</button>
-          </div><div class="item" draggable="false" data-ii="1" ondragstart="onID(event,1,1)" ondragover="onIDO(event)" ondrop="onIDP(event,1,1)" ondragleave="onIDL(event)">
-            <span class="drag-h">⠿</span>
-            <div class="cb" onclick="toggleItem(1,1)"></div>
-            <div class="item-body">
-              <div class="item-text">Mitre saw stand<span class="badge b-opt">선택</span></div>
-              
-              
-            </div>
-            <button class="item-del" onclick="delItem(1,1)">✕</button>
-          </div>
-        
-      </div>
-    </div></div>
+  <div class="tabs-scroll"><div class="tabs" id="tabs"></div></div>
+  <div id="sections"></div>
 </div>
 <div class="save-notice" id="saveNotice">저장됨</div>
 
@@ -506,5 +445,10 @@ function onIDP(e,si,ii){
 render();
 </script>
 
-
-</body></html>
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').then(()=>console.log('SW registered')).catch(e=>console.log('SW error',e));
+}
+</script>
+</body>
+</html>
